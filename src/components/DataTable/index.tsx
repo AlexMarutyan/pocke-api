@@ -42,7 +42,6 @@ const DataTable = <Data extends object>({
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     state: {
-      globalFilter,
       columnVisibility,
     },
   });
