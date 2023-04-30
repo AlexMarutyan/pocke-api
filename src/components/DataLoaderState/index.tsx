@@ -43,7 +43,7 @@ const DataLoaderState = ({
       </Center>
     ) : (
       showLoadingSpinner && (
-        <Center flex={1} flexDir="column">
+        <Center h="full" flex={1} flexDir="column">
           <LoadingState />
         </Center>
       )
