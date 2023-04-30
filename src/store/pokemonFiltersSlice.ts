@@ -21,7 +21,7 @@ export const filtersSlice = createSlice({
     setSearch: (state, action) => {
       state.search = action.payload;
     },
-    setType: (state, action) => {
+    setTypes: (state, action) => {
       state.types = action.payload;
     },
     setPerPage: (state, action) => {
@@ -33,7 +33,7 @@ export const filtersSlice = createSlice({
   },
 });
 
-export const { setSearch, setType, setCount, setPerPage } =
+export const { setSearch, setTypes, setCount, setPerPage } =
   filtersSlice.actions;
 
 export default filtersSlice.reducer;

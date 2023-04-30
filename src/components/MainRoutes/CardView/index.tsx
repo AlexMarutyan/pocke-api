@@ -1,20 +1,19 @@
 import { useMemo } from "react";
 import { Flex } from "@chakra-ui/react";
+import { map, get, flatten, isEmpty } from "lodash";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { map, get, flatten, isEmpty, filter } from "lodash";
 
 import {
   fetchPokemons,
   fetchPokemonsInCardView,
 } from "../../../services/pokemons";
 import useIntersectionObserver from "../../../hooks/useIntersectionObserver";
-import { stringsIncludes } from "../../../utils/string";
 import { useAppSelector } from "../../../store/hooks";
 import DataLoaderState from "../../DataLoaderState";
 import CardItem from "../../CardItem";
 
 export const CardView = () => {
-  const { search, perPage } = useAppSelector((state) => state.filters);
+  const perPage = useAppSelector((state) => state.filters.perPage);
 
   const { data, hasNextPage, fetchNextPage, ...queryResult } = useInfiniteQuery(
     ["fetchPokemonsInCardView", { limit: perPage }],
@@ -35,15 +34,11 @@ export const CardView = () => {
 
   const loader = useIntersectionObserver(handleFetchAdditionalData);
 
-  const filteredData = useMemo(() => {
-    let currentData = flatten(map(get(data, "pages"), "results"));
+  const currentData = useMemo(
+    () => flatten(map(get(data, "pages"), "results")),
 
-    if (!isEmpty(search)) {
-      return filter(currentData, ({ name }) => stringsIncludes(name, search));
-    }
-
-    return currentData;
-  }, [data, search]);
+    [data]
+  );
 
   return (
     <>
@@ -54,14 +49,14 @@ export const CardView = () => {
         alignItems="center"
         justifyContent="center"
       >
-        {map(filteredData, (item) => (
+        {map(currentData, (item) => (
           <CardItem key={item?.name} name={item?.name} />
         ))}
       </Flex>
       <DataLoaderState
         loader={loader}
         {...queryResult}
-        noResult={isEmpty(filteredData)}
+        noResult={isEmpty(currentData)}
         emptyState={{ heading: "No corresponding data found" }}
       />
     </>

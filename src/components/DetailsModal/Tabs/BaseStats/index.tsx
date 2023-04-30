@@ -7,7 +7,7 @@ const BaseStats = ({ stats }: { stats: any }) => (
       <Box py={1} key={stat?.name}>
         <Text mb={2} fontSize="lg" textTransform="capitalize">
           {stat?.name.replace(/-/g, " ")}:
-          <Text ml={2} as="span" fontWeight="bold">
+          <Text  ml={2} as="span" fontWeight="bold">
             {base_stat}
           </Text>
         </Text>

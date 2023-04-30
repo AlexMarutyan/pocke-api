@@ -1,17 +1,20 @@
-import { isEmpty } from "lodash";
+import {includes, isEmpty} from "lodash";
 import { useQuery } from "@tanstack/react-query";
 import { Text, Flex, Image } from "@chakra-ui/react";
 
 import { fetchPokemon } from "../../services/pokemons";
+import {useAppSelector} from "../../store/hooks";
 
 type CardItemProps = {
   name: string;
 };
 
 const CardItem = ({ name }: CardItemProps) => {
+  const types  = useAppSelector((state) => state.filters.types);
+
   const { data } = useQuery([`fetchPokemon_${name}`], () => fetchPokemon(name));
 
-  return !isEmpty(data) ? (
+  return !isEmpty(data) && (isEmpty(types) || includes(types,data?.types[0].type.name)) ? (
     <Flex
       gap={4}
       w="full"
@@ -41,7 +44,7 @@ const CardItem = ({ name }: CardItemProps) => {
         justifyContent="space-between"
       >
         # {data?.id}
-        <Text textTransform="capitalize">{data?.name.replace(/-/g, " ")}</Text>
+        <Text as="span" textTransform="capitalize">{data?.name.replace(/-/g, " ")}</Text>
       </Text>
     </Flex>
   ) : null;
