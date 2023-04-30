@@ -1,6 +1,6 @@
 import {includes, isEmpty} from "lodash";
 import { useQuery } from "@tanstack/react-query";
-import { Text, Flex, Image } from "@chakra-ui/react";
+import { Text, Flex, Image, Skeleton } from "@chakra-ui/react";
 
 import { fetchPokemon } from "../../services/pokemons";
 import {useAppSelector} from "../../store/hooks";
@@ -16,6 +16,7 @@ const CardItem = ({ name }: CardItemProps) => {
 
   return !isEmpty(data) && (isEmpty(types) || includes(types,data?.types[0].type.name)) ? (
     <Flex
+      p={2}
       gap={4}
       w="full"
       flexWrap="wrap"
@@ -25,11 +26,12 @@ const CardItem = ({ name }: CardItemProps) => {
       bg={`pokemon.${data?.types[0].type.name}`}
     >
       <Image
-        p={2}
+
         boxSize={24}
         objectFit="contain"
         alt="Pokemon image"
         src={data?.sprites?.other.dream_world.front_default}
+        fallback={<Skeleton borderRadius="full" boxSize={24}/>}
       />
       <Text
         px={4}
