@@ -17,17 +17,12 @@ import {
 } from "@tanstack/react-table";
 import { get, isEmpty } from "lodash";
 
-import { EmptyStateProps } from "../DataLoaderState/EmptyState";
-import Overlay from "./Overlay";
 import DataLoaderState from "../DataLoaderState";
+import Overlay from "./Overlay";
 
 export type DataTableProps<Data extends object> = {
   data: Data[];
   queryResult: any;
-  globalFilter?: any;
-  hasOverlay?: boolean;
-  getRowStyles?: Function;
-  emptyState?: EmptyStateProps;
   columns: ColumnDef<Data, any>[];
   columnVisibility?: Record<string, boolean>;
 } & TableProps;
@@ -37,7 +32,6 @@ const DataTable = <Data extends object>({
   columns,
   size = "lg",
   queryResult,
-  globalFilter,
   columnVisibility,
   variant = "classic",
 }: DataTableProps<Data>) => {
